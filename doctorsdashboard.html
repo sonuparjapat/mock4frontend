@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <nav>
+        <div style="display: flex;justify-content: space-around;">
+        <a href="/firstmock">Homepage</a>
+        <a href="/firstmock/doctorsdashboard.html" >Doctor' sDashboard</a>
+        <a href="/firstmock/bookappointments.html">Book Appointments</a></div>
+        
+            </nav>
+    <div>
+<h1 style="text-align: center;">Doctor's Dashboard</h1>
+<div style="width: 90%; margin:auto">
+    <form id="check">
+<input type="text"  id="name" placeholder="Name"/>
+<input type="text"  id="image" placeholder="Image URL"/>
+<select id="select">
+    <option value="">Specialization</option>
+    <option value="Cardiologist">Cardiologist</option>
+    <option value="Dermatologist">Dermatologist</option>
+    <option value="Pediatrician">Pediatrician</option>
+    <option value="Psychiatrist">Psychiatrist</option>
+</select>
+<input type="number" id="experience" placeholder="Experience"/>
+<input id="location" type="text" placeholder="Location"/>
+<input id="date" type="Date" />
+<input id="fee" type="number" placeholder="Fee"/>
+<input id="slots" type="number" placeholder="Slots"/>
+<button type="submit">Submit</button>
+</form>
+<!-- <form id="login" >
+    
+    <input type="text" placeholder="Email" id="loginemail"/><br>
+    <input type="text" placeholder="Password" id="loginpassword"/>
+    <br>
+    <button type="submit" id="loginbutton">Login</button>
+    
+    
+    </form> -->
+</div>
+    </div>
+</body>
+<script>
+    let formdata=document.querySelector("form")
+formdata.addEventListener("sumbit",(e)=>{
+e.preventDefault()
+    let obj={
+	  "name": formdata.name.value,
+	  "image": formdata.image.value,
+	  "specialization": formdata.select.value,
+	  "experience": formdata.experience.value,
+	  "location":formdata.location.value,
+	  "date": formdata.date.value,
+		"slots":formdata.slots.value,
+	  "fee": formdata.fee.value
+	}
+    console.log(obj)
+    fetch("https://mockbackend-lnul.onrender.com/appointments",{
+        method:"POST",
+        headers:{
+            "Content-Type":"application/json"
+        },
+        body:JSON.stringify(obj)
+    }).then((res)=>res.json()).then((reso)=>console.log(res)).catch((err)=>console.log(err))
+})
+</script>
+</html>

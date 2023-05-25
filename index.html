@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <nav>
+<div style="display: flex;justify-content: space-around;">
+<a href="/firstmock">Homepage</a>
+<a href="/firstmock/doctorsdashboard.html" >Doctor' sDashboard</a>
+<a href="/firstmock/bookappointments.html">Book Appointments</a></div>
+
+    </nav>
+  
+<h1 style="text-align: center;">Homepage</h1>
+
+<div style="border:1px solid red;width:40%;display:flex;margin:auto">
+    <div>
+        <h2 id="loginheading">Login</h2>
+<form id="login" >
+    
+<input type="text" placeholder="Email" id="loginemail"/><br>
+<input type="text" placeholder="Password" id="loginpassword"/>
+<br>
+<button type="submit" id="loginbutton">Login</button>
+
+
+</form>
+</div>
+
+<div>
+    <h2 id="registerheading">Register</h2>
+<form id="signup">
+    <input type="text" placeholder="Username" id="registername"/><br>
+    <input type="text" placeholder="Email" id="registeremail"/><br>
+    <input type="password" placeholder="Password" id="registerpass"/><br>
+    <input type="checkbox"  id="registercheckbox"/><label>check(for doctors only)</label><br>
+    <button type="submit" id="registerbutton" >Register</button>
+
+</form>
+
+
+</div>
+    </div>
+</body>
+<script>
+    document.querySelector("#signup").style.display="none"
+    document.querySelector("#registerheading").addEventListener("click",registerfun)
+
+    function registerfun(){
+        document.querySelector("#signup").style.display="initial"
+        document.querySelector("#login").style.display="none"
+    }
+
+   function loginfun(){
+  
+document.querySelector("#login").style.display="initial"  
+document.querySelector("#signup").style.display="none" }
+document.querySelector("#loginheading").addEventListener('click',loginfun)
+const signupform=document.getElementById("signup")
+signupform.addEventListener("submit",(e)=>{
+    e.preventDefault()
+let obj={
+    "Username":signupform.registername.value,
+    "Email":signupform.registeremail.value,
+    "Password":signupform.registerpass.value,
+    "Doctor":signupform.registercheckbox.checked
+
+}
+fetch("https://mockbackend-lnul.onrender.com/users",{
+    method:"POST",
+    headers:{
+        "Content-Type":"application/json"
+    },
+    body:JSON.stringify(obj)
+}).then((res)=>res.json()).then((res)=>alert("Register successfully")).catch((err)=>console.log(err))
+
+
+
+})
+const loginform=document.getElementById("login")
+
+loginform.addEventListener("submit",(e)=>{
+    e.preventDefault()
+    let obj={
+        "Email":loginform.loginemail.value,
+        "Password":loginform.loginpassword.value
+    }
+    fetch("https://mockbackend-lnul.onrender.com/users" 
+).then((res)=>res.json()).then((res)=>{
+    let count=0
+for(let i in res){
+    if(res[i].Email==obj.Email&&res[i].Password==obj.Password &&res[i].Doctor==true){
+        alert("login successful")
+        count++
+        window.location.href="/doctorsdashboard.html"
+        break;
+    }else if(res[i].Email==obj.Email&&res[i].Password==obj.Password &&res[i].Doctor==false){
+        alert("login successful")
+        count++
+        window.location.href="/bookappointments.html"
+
+break;
+
+}
+
+}
+count==0&&alert("login failed")
+
+
+}).catch((err)=>console.log(err))
+
+
+
+})
+
+
+    </script>
+</html>
